@@ -1,14 +1,14 @@
-ARG IMAGE=intersystemsdc/iris-community:2021.1.0.215.3-zpm
+ARG IMAGE=intersystemsdc/iris-ml-community:2021.2.0.649.0-zpm
 FROM $IMAGE
 
-USER root
-
+USER root   
+RUN pip3 install --target /usr/irissys/mgr/python/ openpyxl
+        
 WORKDIR /opt/irisapp
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
 USER ${ISC_PACKAGE_MGRUSER}
 
 COPY  src src
-COPY  web web
 COPY module.xml module.xml
 COPY iris.script /tmp/iris.script
 
