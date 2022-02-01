@@ -8,9 +8,9 @@ on:
 
 env:
   # Change this section according to your needs
-  IMAGE_NAME:   apptools
-  SERVICE:      apptools
-  DOMAIN_NAME:  apptools.demo.community.intersystems.com
+  IMAGE_NAME:   appmsw-sql2xlsx
+  SERVICE:      appmsw-sql2xlsx
+  DOMAIN_NAME:  appmsw-sql2xlsx.demo.community.intersystems.com
 # Leave this section untouched
   PROJECT_ID:   iris-community-demos
   CLUSTER_NAME: demo

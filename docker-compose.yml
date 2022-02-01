@@ -6,9 +6,8 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports: 
-      - 51443:1972
-      - 52443:52773
+      - 51663:1972
+      - 52663:52773
       - 53773
     volumes:
-    #  - ~/iris.key:/usr/irissys/mgr/iris.key
       - ./:/irisdev/app

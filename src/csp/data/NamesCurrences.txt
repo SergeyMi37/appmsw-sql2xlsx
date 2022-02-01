@@ -1,0 +1,35 @@
+NumCode,CharCode,Name
+036,AUD,Australian Dollar
+944,AZN,Azerbaijan Manat
+051,AMD,Armenia Dram
+933,BYN,Belarussian Ruble
+975,BGN,Bulgarian lev
+986,BRL,Brazil Real
+348,HUF,Hungarian Forint
+410,KRW,South Korean Won
+344,HKD,Hong Kong Dollar
+208,DKK,Danish Krone
+840,USD,US Dollar
+978,EUR,Euro
+356,INR,Indian Rupee
+398,KZT,Kazakhstan Tenge
+124,CAD,Canadian Dollar
+417,KGS,Kyrgyzstan Som
+156,CNY,China Yuan
+498,MDL,Moldova Lei
+934,TMT,New Turkmenistan Manat
+578,NOK,Norwegian Krone
+985,PLN,Polish Zloty
+946,RON,Romanian Leu
+960,XDR,SDR
+702,SGD,Singapore Dollar
+972,TJS,Tajikistan Ruble
+949,TRY,Turkish Lira
+860,UZS,Uzbekistan Sum
+980,UAH,Ukrainian Hryvnia
+826,GBP,British Pound Sterling
+203,CZK,Czech Koruna
+752,SEK,Swedish Krona
+756,CHF,Swiss Franc
+710,ZAR,S.African Rand
+392,JPY,Japanese Yen
