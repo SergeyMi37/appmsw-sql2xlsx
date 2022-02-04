@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-  <Document name="exchange-rate-cbrf-ui.ZPM">
+  <Document name="appmsw-sql2xlsx.ZPM">
     <Module>
-    <Name>exchange-rate-cbrf-ui</Name>
-    <Version>1.0.1</Version>
-	<Description>UI for database of exchange rates of the Central Bank of the Russian Federation.</Description>
+    <Name>appmsw-sql2xlsx</Name>
+    <Version>1.0.0</Version>
+	<Description>Solution for converting requests to excel files using the python library openpyxl.</Description>
     <Packaging>module</Packaging>
-	<Keywords>Database exchange rates</Keywords>
+	<Keywords>python openpyxl excel xlsx</Keywords>
 	<Author>
 	<Person>Mikhaylenko Sergey</Person>
 	<CopyrightDate>2022</CopyrightDate>
-	<License>https://www.cbr.ru/eng/about/</License>
+	<License>MIT</License>
 	</Author>
-	<SystemRequirements Version=">=2020.1" Interoperability="enabled" />
+	<SystemRequirements Version=">=2021.1" Interoperability="enabled" />
 	<SourcesRoot>src</SourcesRoot>
-	<Invoke Class="%EnsembleMgr" Method="EnableNamespace" Phase="Compile" When="Before" CheckStatus="true">
-	   <Arg>${namespace}</Arg>
-	</Invoke>
-	<Invoke Class="appmsw.cbrf.util" Method="init" Phase="Activate" When="After"/>
+	<Invoke Class="appmsw.python.util" Method="init" Phase="Activate" When="After"/>
 	<Dependencies>
 	  <ModuleReference>
       <Name>apptools-admin</Name>
         <Version>1.1.*</Version>
       </ModuleReference>
     </Dependencies>
-	<CSPApplication CookiePath="/cbrf-rate/" DispatchClass="appmsw.cbrf.rest" MatchRoles=":{$dbrole}" PasswordAuthEnabled="1" Recurse="1" UnauthenticatedEnabled="0" Url="/cbrf-rate" UseSessionCookie="1"/>
-	<Resource Name="appmsw.cbrf.PKG"/>
-	<Resource Name="appmsw.cbrf.tabexDayD.GBL"/>
-	<Resource Name="appmsw.cbrf.tabexD.GBL"/>
+	<Resource Name="appmsw.python.PKG"/>
     </Module>
   </Document>
 </Export>

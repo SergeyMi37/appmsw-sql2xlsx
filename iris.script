@@ -1,8 +1,9 @@
-;do $System.OBJ.LoadDir("/opt/irisapp/src","ck",,1)
-
 zn "%SYS"
 Do ##class(Security.Users).UnExpireUserPasswords("*")
-zpm "install zpm"
+
+;if '(##class(%Dictionary.CompiledClass).%ExistsId("%ZPM.PackageManager")) {
+; zn "%SYS" do ##class(Security.SSLConfigs).Create("z") set r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="z" do r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
+;}
 zn "USER"
 zpm "load /opt/irisapp/ -v":1:1
 halt
