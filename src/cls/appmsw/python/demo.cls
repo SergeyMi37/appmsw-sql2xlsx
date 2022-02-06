@@ -50,7 +50,7 @@ ClassMethod GetAllApps(opt) As %Status
     if ##class(appmsw.python.util).IsInstallzpm("fileserver") {
 		set key="File"
 		set opt(key,"Menu")=sideMenu
-		set opt(key)="Server"
+		set opt(key)="Fileserver"
 		set opt(key,"id")=key
 		set opt(key,"TabName")="Fileserver"
 		set opt(key,"ClassName")=..%ClassName(1)
@@ -64,9 +64,9 @@ ClassMethod GetAllApps(opt) As %Status
     if ##class(appmsw.python.util).IsInstallzpm("csvgen") {
 		set key="Titanic"
 		set opt(key,"Menu")=sideMenu
-		set opt(key)="Titanic"
+		set opt(key)="csvgen"
 		set opt(key,"id")=key
-		set opt(key,"TabName")="Titanic"
+		set opt(key,"TabName")="csvgen"
 		set opt(key,"ClassName")=..%ClassName(1)
 		set opt(key,"Role")="%All"
 		set opt(key,"Namespace")=ns
@@ -77,9 +77,9 @@ ClassMethod GetAllApps(opt) As %Status
      }
        	set key="SQL"
 		set opt(key,"Menu")=sideMenu
-		set opt(key)="Sql"
+		set opt(key)="SQL2XLSX"
 		set opt(key,"id")=key
-		set opt(key,"TabName")="SQL 2 XLSX"
+		set opt(key,"TabName")="SQL2XLSX"
 		set opt(key,"ClassName")=..%ClassName(1)
 		set opt(key,"Role")="%All"
 		set opt(key,"Namespace")=ns
@@ -138,6 +138,7 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 	set %ui=1
 	set dataFrom=$zd($h-1,3)
 	set dataTo=$zd($h,3)
+	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern-yellow.xlsx"
 	set onclick=$$$blockui("Load...")_
 		$$$onclick(divId_"MainForm",divId_"MainContent",$namespace,..%ClassName(1),divId_"Result","&key="_key_"&divId="_divId_"&mode=*")
 	&html<
@@ -152,6 +153,8 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 			<td>
 			#($$$appButton(divId_"appButtonResult1","onclick="""_$replace(onclick,"*",1)_"""","Search"))#
 			#($$$appButton(divId_"appButtonResult2","onclick="""_$replace(onclick,"*",2)_"""","Load from service"))#
+			#($$$appText(divId_"pattern","title='pattern for export' size=40 ",pattern))#
+			#($$$appButton(divId_"appButtonResult3","onclick="""_$tr(onclick,"*",3)_"""","Export to XLSX"))#
 			</td>
 		</tr>
 		</table>
@@ -172,13 +175,21 @@ ClassMethod ViewResult(Par = "") As %Status
 	set from=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"fromDate")	
 	set to=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"toDate")
 	write ..ButtonAgain(divId,key)
+	set sql="select CharCode, DateExchangeRates, DateReq, LastChanged, Nominal, NumCode, Value from appmsw_cbrf.tabex where DateExchangeRates >= '"_from_"' and DateExchangeRates <= '"_to_"'"
 	if mode=1 {
-		set sql="select CharCode, DateExchangeRates, DateReq, LastChanged, Nominal, NumCode, Value from appmsw_cbrf.tabex where DateExchangeRates >= '"_from_"' and DateExchangeRates <= '"_to_"'"
 		set st=##class(apptools.core.LogInfoPane).DrawSQL(sql,100000,$zu(5),sql,$GET(exec),,1)
 		if 'st  write $$$appError($System.Status.GetErrorText(st))
 	}
 	elseif mode=2 {
 		do ##class(appmsw.cbrf.util).initDb(from,to)
+	}
+	elseif mode=3 {
+		set gn="^||tmpQuery"
+		set st=##class(apptools.core.sys).SaveSQL(sql,gn)
+		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
+		set newfile="/usr/irissys/mgr/Temp/Exchange-rate"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
+		do ##class(appmsw.python.xlsx).gn2xlsx(gn,"",newfile,"Test",pattern)
+		do ##class(Fileserver.File).AddFile(newfile)
 	}
 	quit $$$OK
 }
@@ -189,7 +200,7 @@ ClassMethod SQLFirstHead(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set %ui=1
-	set pattern="/tmp/curr-rate.txt"
+	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern-green.xlsx"
 	set sql="select * from %SYS.Namespace_List(0,0)"
     set inc=0 
 	set onclick=$$$blockui("Load...")_
@@ -199,14 +210,13 @@ ClassMethod SQLFirstHead(Par = "") As %Status
 		<tr>
 			<td>
  			#($$$appText(divId_"Sql","title='Query statement' size=80 ",sql))#
-			#($$$appButton(divId_"appButtonResult"_$i(inc),"onclick="""_$tr(onclick,"*",1)_"""","Search"))#
+			#($$$appButton(divId_"appButtonResult1","onclick="""_$tr(onclick,"*",1)_"""","Search"))#
 			</td>
 			<td>
 			</td>
 			<td>
-			
-			#($$$appText(divId_"pattern","title='pattern for export' size=80 ",pattern))#
-			#($$$appButton(divId_"appButtonResult"_$i(inc),"onclick="""_$tr(onclick,"*",2)_"""","Export to XLSX"))#
+			#($$$appText(divId_"pattern","title='pattern for export' size=40 ",pattern))#
+			#($$$appButton(divId_"appButtonResult2","onclick="""_$tr(onclick,"*",2)_"""","Export to XLSX"))#
 			</td>
 		</tr>
 		</table>
@@ -226,6 +236,7 @@ ClassMethod SQLResult(Par = "") As %Status
 	write ..ButtonAgain(divId,key)
 	;Geting elements from form and prepare array Par
 	set sql=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"Sql")
+	set pattern=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"pattern")
 	if mode=1 {
 		set st=##class(apptools.core.LogInfoPane).DrawSQL(sql,100000,$zu(5),sql,$GET(exec),,1)
 		if 'st  write $$$appError($System.Status.GetErrorText(st))
@@ -234,8 +245,71 @@ ClassMethod SQLResult(Par = "") As %Status
 		set gn="^||tmpQuery"
 		set st=##class(apptools.core.sys).SaveSQL(sql,gn)
 		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
-		;zw @gn
-		do ##class(appmsw.python.xlsx).gn2xlsx(gn,"","/tmp/test.xlsx","Test","/tmp/pattern.xlsx")
+		set newfile="/usr/irissys/mgr/Temp/sql"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
+		do ##class(appmsw.python.xlsx).gn2xlsx(gn,"",newfile,"Test",pattern)
+		do ##class(Fileserver.File).AddFile(newfile)
+	}
+	quit $$$OK
+}
+
+ClassMethod TitanicFirstHead(Par = "") As %Status
+{
+	do ##class(apptools.core.Form).BlockUI(0)
+	set key=Par("key")
+	set divId=Par("divId")
+	set %ui=1
+	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern-grey.xlsx"
+	set sql="select * FROM Data.Titanic"
+    set inc=0 
+	set onclick=$$$blockui("Load...")_
+		$$$onclick(divId_"MainForm",divId_"MainContent",$namespace,..%ClassName(1),divId_"Result","&key="_key_"&divId="_divId_"&mode=*")
+	&html<
+		<table>
+		<tr>
+			<td>
+ 			#($$$appText(divId_"Sql","title='Query statement' size=80 ",sql))#
+			#($$$appButton(divId_"appButtonResult1","onclick="""_$tr(onclick,"*",1)_"""","Search"))#
+			</td>
+			<td>
+			</td>
+			<td>
+			#($$$appButton(divId_"appButtonResult3","onclick="""_$tr(onclick,"*",3)_"""","Load"))#
+			#($$$appText(divId_"pattern","title='pattern for export' size=40 ",pattern))#
+			#($$$appButton(divId_"appButtonResult2","onclick="""_$tr(onclick,"*",2)_"""","Export to XLSX"))#
+			</td>
+		</tr>
+		</table>
+	>
+	$$$SetHeightContent(divId,250)
+	q $$$OK
+}
+
+/// Search result 
+ClassMethod TitanicResult(Par = "") As %Status
+{
+	set %ui=1
+	do ##class(apptools.core.Form).BlockUI(0)
+	set key=Par("key")
+	set divId=Par("divId")
+	set mode=Par("mode")
+	write ..ButtonAgain(divId,key)
+	;Geting elements from form and prepare array Par
+	set sql=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"Sql")
+	set pattern=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"pattern")
+	if mode=1 {
+		set st=##class(apptools.core.LogInfoPane).DrawSQL(sql,100000,$zu(5),sql,$GET(exec),,1)
+		if 'st  write $$$appError($System.Status.GetErrorText(st))
+	}
+	elseif mode=3 {
+		do ##class(community.csvgen).GenerateFromURL("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv",",","Data.Titanic")
+	}
+	elseif mode=2 {
+		set gn="^||tmpQuery"
+		set st=##class(apptools.core.sys).SaveSQL(sql,gn)
+		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
+		set newfile="/usr/irissys/mgr/Temp/titanic"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
+		do ##class(appmsw.python.xlsx).gn2xlsx(gn,"",newfile,"Test",pattern)
+		do ##class(Fileserver.File).AddFile(newfile)
 	}
 	quit $$$OK
 }

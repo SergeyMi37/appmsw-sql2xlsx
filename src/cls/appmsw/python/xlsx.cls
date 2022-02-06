@@ -1,5 +1,4 @@
-Include apptools.core
-
+/// Include apptools.core
 Class appmsw.python.xlsx
 {
 
@@ -76,7 +75,7 @@ ClassMethod gn2xlsx(gn, format = "", file As %String, title = "", patternxlsx = 
         set openpyxl = ##class(%SYS.Python).Import("openpyxl") 
     } catch err {
         //  depricated  ;set sc = ##class(%SYS.Python).Install("openpyxl")
-        set st=##class(%ZPM.PackageManager.Developer.Utils).RunCommandViaZF("pip3 install openpyxl",.tLog,.tErr)
+        set st=##class(%ZPM.PackageManager.Developer.Utils).RunCommandViaZF("pip3 install --target /usr/irissys/mgr/python/ openpyxl",.tLog,.tErr)
         set openpyxl = ##class(%SYS.Python).Import("openpyxl")
     }
 

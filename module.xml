@@ -12,16 +12,26 @@
 	<CopyrightDate>2022</CopyrightDate>
 	<License>MIT</License>
 	</Author>
-	<SystemRequirements Version=">=2021.1" Interoperability="enabled" />
+	<SystemRequirements Version=">=2021.0" Interoperability="enabled" />
 	<SourcesRoot>src</SourcesRoot>
 	<Invoke Class="appmsw.python.util" Method="init" Phase="Activate" When="After"/>
 	<Dependencies>
 	  <ModuleReference>
-      <Name>apptools-admin</Name>
+        <Name>apptools-admin</Name>
         <Version>1.1.*</Version>
       </ModuleReference>
     </Dependencies>
 	<Resource Name="appmsw.python.PKG"/>
-    </Module>
+    <CSPApplication 
+        SourcePath="/src/csp/sql2xlsx"
+        DeployPath="${cspdir}/sql2xlsx"
+        Url="/sql2xlsx" 
+        ServeFiles="1"
+        CookiePath="/sql2xlsx/"
+        PasswordAuthEnabled="1"
+        AuthenticationMethods="32" 
+        MatchRoles=":%ALL"
+        Recurse="1"/>
+	</Module>
   </Document>
 </Export>
