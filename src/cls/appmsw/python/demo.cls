@@ -138,7 +138,7 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 	set %ui=1
 	set dataFrom=$zd($h-1,3)
 	set dataTo=$zd($h,3)
-	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern-yellow.xlsx"
+	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern.xlsx"
 	set onclick=$$$blockui("Load...")_
 		$$$onclick(divId_"MainForm",divId_"MainContent",$namespace,..%ClassName(1),divId_"Result","&key="_key_"&divId="_divId_"&mode=*")
 	&html<
@@ -149,10 +149,10 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 			</td>
 			<td>
 			to #($$$appDate(divId_"toDate","",dataTo))#
-			</td>
-			<td>
 			#($$$appButton(divId_"appButtonResult1","onclick="""_$replace(onclick,"*",1)_"""","Search"))#
 			#($$$appButton(divId_"appButtonResult2","onclick="""_$replace(onclick,"*",2)_"""","Load from service"))#
+			</td>
+			<td>
 			#($$$appText(divId_"pattern","title='pattern for export' size=40 ",pattern))#
 			#($$$appButton(divId_"appButtonResult3","onclick="""_$tr(onclick,"*",3)_"""","Export to XLSX"))#
 			</td>
@@ -176,6 +176,7 @@ ClassMethod ViewResult(Par = "") As %Status
 	set to=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"toDate")
 	write ..ButtonAgain(divId,key)
 	set sql="select CharCode, DateExchangeRates, DateReq, LastChanged, Nominal, NumCode, Value from appmsw_cbrf.tabex where DateExchangeRates >= '"_from_"' and DateExchangeRates <= '"_to_"'"
+	set pattern=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"pattern")
 	if mode=1 {
 		set st=##class(apptools.core.LogInfoPane).DrawSQL(sql,100000,$zu(5),sql,$GET(exec),,1)
 		if 'st  write $$$appError($System.Status.GetErrorText(st))
@@ -200,7 +201,7 @@ ClassMethod SQLFirstHead(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set %ui=1
-	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern-green.xlsx"
+	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern.xlsx"
 	set sql="select * from %SYS.Namespace_List(0,0)"
     set inc=0 
 	set onclick=$$$blockui("Load...")_
@@ -258,7 +259,7 @@ ClassMethod TitanicFirstHead(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set %ui=1
-	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern-grey.xlsx"
+	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern.xlsx"
 	set sql="select * FROM Data.Titanic"
     set inc=0 
 	set onclick=$$$blockui("Load...")_
@@ -269,11 +270,12 @@ ClassMethod TitanicFirstHead(Par = "") As %Status
 			<td>
  			#($$$appText(divId_"Sql","title='Query statement' size=80 ",sql))#
 			#($$$appButton(divId_"appButtonResult1","onclick="""_$tr(onclick,"*",1)_"""","Search"))#
-			</td>
-			<td>
-			</td>
-			<td>
 			#($$$appButton(divId_"appButtonResult3","onclick="""_$tr(onclick,"*",3)_"""","Load"))#
+			</td>
+			<td>
+			</td>
+			<td>
+			
 			#($$$appText(divId_"pattern","title='pattern for export' size=40 ",pattern))#
 			#($$$appButton(divId_"appButtonResult2","onclick="""_$tr(onclick,"*",2)_"""","Export to XLSX"))#
 			</td>

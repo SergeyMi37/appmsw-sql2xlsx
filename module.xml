@@ -12,7 +12,7 @@
 	<CopyrightDate>2022</CopyrightDate>
 	<License>MIT</License>
 	</Author>
-	<SystemRequirements Version=">=2021.0" Interoperability="enabled" />
+	<SystemRequirements Version=">=2021.2" Interoperability="enabled" />
 	<SourcesRoot>src</SourcesRoot>
 	<Invoke Class="appmsw.python.util" Method="init" Phase="Activate" When="After"/>
 	<Dependencies>
