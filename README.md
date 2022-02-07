@@ -14,7 +14,7 @@
 
  Solution of using python openxl library to export queries to excel file based on template.
  
- To [demonstrate the possibilities](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/rate&class=appmsw.python.demo), I used the [fileserver](https://openexchange.intersystems.com/package/Cache-FileServer) and [csvgen](https://openexchange.intersystems.com/package/csvgen) projects
+ To [demonstrate the possibilities](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/xlsx&class=appmsw.python.demo), I used the [fileserver](https://openexchange.intersystems.com/package/Cache-FileServer) and [csvgen](https://openexchange.intersystems.com/package/csvgen) projects
  
  
 ## Installation with ZPM
@@ -52,8 +52,8 @@ $ docker-compose up -d
 ```
 
 ## How to Test it 
-Open link: http://localhost:52663/appmswrest/a/rate&class=appmsw-sql2xlsx
+Open link: http://localhost:52663/apptoolsrest/a/xlsx&class=appmsw.python.demo
 
 ![Link](https://raw.githubusercontent.com/sergeymi37/appmsw-sql2xlsx/master/doc/Screenshot_1.png)
 
-[![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/rate&class=appmsw.python.demo#)
+[![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/xlsx&class=appmsw.python.demo)
