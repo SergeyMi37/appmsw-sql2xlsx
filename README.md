@@ -4,7 +4,7 @@
  
 [![Docker-ports](https://img.shields.io/badge/dynamic/yaml?color=blue&label=docker-compose&prefix=ports%20-%20&query=%24.services.iris.ports&url=https%3A%2F%2Fraw.githubusercontent.com%2Fsergeymi37%2Fappmsw-sql2xlsx%2Fmaster%2Fdocker-compose.yml)](https://raw.githubusercontent.com/sergeymi37/appmsw-sql2xlsx/master/docker-compose.yml)
  
-![](https://raw.githubusercontent.com/SergeyMi37/appmsw-sql2xlsx/master/doc/favicon.png)
+<!--![](https://raw.githubusercontent.com/SergeyMi37/appmsw-sql2xlsx/master/doc/favicon.png)-->
  
  ## appmsw-sql2xlsx
 
@@ -16,7 +16,10 @@
  
  To [demonstrate the possibilities](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/xlsx&class=appmsw.python.demo), I used the [fileserver](https://openexchange.intersystems.com/package/Cache-FileServer) and [csvgen](https://openexchange.intersystems.com/package/csvgen) projects
  
- 
+## Requirements
+
+`IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2021.2 (Build 649U) Thu Jan 20 2022 08:53:15 EST`
+
 ## Installation with ZPM
 
 If ZPM the current instance is not installed, then in one line you can install the latest version of ZPM.
