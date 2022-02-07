@@ -8,17 +8,19 @@ ClassMethod init() As %Status
 		set dir2="/irisdev/" 
 		if ##class(%File).DirectoryExists(dir) {
 		 if '##class(%File).DirectoryExists(dir2) {	;for demo  GCR
-			for name="exchange-rate-cbrf","fileserver","csvgen" {
+			for name="exchange-rate-cbrf","csvgen" {
 				if '##class(appmsw.python.util).IsInstallzpm(name) {
 					do ##class(%ZPM.PackageManager).Shell("install "_name)
 			    }
+			    do ##class(%ZPM.PackageManager).Shell("load https://github.com/SergeyMi37/Cache-FileServer")
 			}
 		 }
 		 else {  ;install zpm modules for Docker
-			for name="fileserver","csvgen" {
+			for name="csvgen" {
 				if '##class(appmsw.python.util).IsInstallzpm(name) {
 					do ##class(%ZPM.PackageManager).Shell("install "_name)
 			    }
+			    do ##class(%ZPM.PackageManager).Shell("load https://github.com/SergeyMi37/Cache-FileServer")
 			}
 		 }
 		}
