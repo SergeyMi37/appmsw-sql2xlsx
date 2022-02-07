@@ -4,17 +4,24 @@
  
 [![Docker-ports](https://img.shields.io/badge/dynamic/yaml?color=blue&label=docker-compose&prefix=ports%20-%20&query=%24.services.iris.ports&url=https%3A%2F%2Fraw.githubusercontent.com%2Fsergeymi37%2Fappmsw-sql2xlsx%2Fmaster%2Fdocker-compose.yml)](https://raw.githubusercontent.com/sergeymi37/appmsw-sql2xlsx/master/docker-compose.yml)
  
-## appmsw-sql2xlsx
+![](https://raw.githubusercontent.com/SergeyMi37/apptools-infochest/master/doc/favicon.png)
+ 
+ ## appmsw-sql2xlsx
+
  [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)](https://openexchange.intersystems.com/package/appmsw-sql2xlsx)
  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/SergeyMi37/appmsw-sql2xlsx">
+ [![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/rate&class=appmsw.python.demo#)
+
+ Solution of using python openxl library to export queries to excel file based on template.
  
-UI for demonstration [appmsw-sql2xlsx](https://openexchange.intersystems.com/package/appmsw-sql2xlsx)
+ To [demonstrate the possibilities](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/rate&class=appmsw.python.demo), I used the [fileserver](https://openexchange.intersystems.com/package/Cache-FileServer) and [csvgen](https://openexchange.intersystems.com/package/csvgen) projects
+ 
  
 ## Installation with ZPM
 
 If ZPM the current instance is not installed, then in one line you can install the latest version of ZPM.
 ```
-
+zn "%SYS" d ##class(Security.SSLConfigs).Create("z") s r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="z" d r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
 ```
 If ZPM is installed, then `exchange-rate-cbrf-ui` can be set with the command
 ```
@@ -46,6 +53,6 @@ $ docker-compose up -d
 
 ## How to Test it
 Open link: http://localhost:52663/appmswrest/a/rate&class=appmsw-sql2xlsx
+[![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/rate&class=appmsw.python.demo#)
+![Link](https://raw.githubusercontent.com/sergeymi37/appmsw-sql2xlsx/master/doc/Screenshot_1.png)
 
-
-![Link](https://raw.githubusercontent.com/sergeymi37/appmsw-sql2xlsx/master/doc/Screenshot_51.png)

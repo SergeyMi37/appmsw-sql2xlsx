@@ -31,8 +31,6 @@ ClassMethod init() As %Status
 		;/usr/irissys/mgr/Temp/
 	}
 	else { ;set options for Windows
-	    ;/opt/irisapp/src/csp/sql2xlsx/pattern/
-		;/usr/irissys/mgr/Temp/
 	}
     return $$$OK
 }
