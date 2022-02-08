@@ -15,7 +15,7 @@
  Solution of using python openxl library to export queries to excel file based on template.
  
  To [demonstrate the possibilities](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/xlsx&class=appmsw.python.demo), I used the [fileserver](https://openexchange.intersystems.com/package/Cache-FileServer) and [csvgen](https://openexchange.intersystems.com/package/csvgen) projects
- 
+ [![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Fappmsw-sql2xlsx&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Fappmsw-sql2xlsx) 
 ## Requirements
 
 `IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2021.2 (Build 649U) Thu Jan 20 2022 08:53:15 EST`
