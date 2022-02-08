@@ -11,7 +11,6 @@
  [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)](https://openexchange.intersystems.com/package/appmsw-sql2xlsx)
  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/SergeyMi37/appmsw-sql2xlsx">
  [![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/rate&class=appmsw.python.demo#)
- [![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Fappmsw-sql2xlsx&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Fappmsw-sql2xlsx) 
  
  Solution of using python openxl library to export queries to excel file based on template.
  
