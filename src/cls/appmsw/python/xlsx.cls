@@ -17,7 +17,7 @@ ClassMethod sql2xlsx(sql, format = "", file As %String = "d:\_proj\python\sample
 	try {
         set openpyxl = ##class(%SYS.Python).Import("openpyxl") 
     } catch err {
-        set sc = ##class(%SYS.Python).Install("openpyxl")
+        do ##class(appmsw.python.xlsx).InstallPy("openpyxl")
         set openpyxl = ##class(%SYS.Python).Import("openpyxl") 
     }
 	
@@ -64,6 +64,20 @@ ClassMethod sql2xlsx(sql, format = "", file As %String = "d:\_proj\python\sample
 	q $GET(count)
 }
 
+/// do ##class(appmsw.python.xlsx).InstallPy("openpyxl")
+ClassMethod InstallPy(lib)
+{
+    //  depricated  ;set sc = ##class(%SYS.Python).Install("openpyxl")
+    set cmd="pip3 install --target /usr/irissys/mgr/python/ "_lib
+    if '$zversion(1)=3 {
+        set tMgrDir = $System.Util.ManagerDirectory()
+		set tBinDir = $System.Util.BinaryDirectory()_"irispip.exe"
+		set cmd=tBinDir_" install --target "_tMgrDir_"python "_lib
+    }
+    set st=##class(%ZPM.PackageManager.Developer.Utils).RunCommandViaZF(cmd,.tLog,.tErr)
+    quit $$$OK
+}
+
 /// do ##class(appmsw.python.xlsx).gn2xlsx("^||tmpQuery","","/tmp/test.xlsx","Test Title","/tmp/pattern.xlsx")
 ClassMethod gn2xlsx(gn, format = "", file As %String, title = "", patternxlsx = "", sheetname = "Report")
 {
@@ -74,8 +88,7 @@ ClassMethod gn2xlsx(gn, format = "", file As %String, title = "", patternxlsx = 
 	try {
         set openpyxl = ##class(%SYS.Python).Import("openpyxl") 
     } catch err {
-        //  depricated  ;set sc = ##class(%SYS.Python).Install("openpyxl")
-        set st=##class(%ZPM.PackageManager.Developer.Utils).RunCommandViaZF("pip3 install --target /usr/irissys/mgr/python/ openpyxl",.tLog,.tErr)
+		 do ##class(appmsw.python.xlsx).InstallPy("openpyxl")
         set openpyxl = ##class(%SYS.Python).Import("openpyxl")
     }
 

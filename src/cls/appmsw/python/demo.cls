@@ -10,6 +10,9 @@ Parameter HeaderText = "Sql2Xlsx";
 /// Roles
 Parameter AppRoles = "RoleSql2Xlsx";
 
+/// GlobalName
+Parameter GN = "^appmsw.python.demo";
+
 /// Replace parameters
 ClassMethod MainParameter(ByRef h, ByRef par) As %Status
 {
@@ -138,7 +141,8 @@ ClassMethod ViewFirstHead(Par = "") As %Status
 	set %ui=1
 	set dataFrom=$zd($h-1,3)
 	set dataTo=$zd($h,3)
-	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern.xlsx"
+	set gn=##class(appmsw.python.demo).#GN
+	set pattern=@gn@("pattpath")_"pattern.xlsx"
 	set onclick=$$$blockui("Load...")_
 		$$$onclick(divId_"MainForm",divId_"MainContent",$namespace,..%ClassName(1),divId_"Result","&key="_key_"&divId="_divId_"&mode=*")
 	&html<
@@ -171,6 +175,7 @@ ClassMethod ViewResult(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set mode=Par("mode")
+	set gn=##class(appmsw.python.demo).#GN
 	;Geting elements from form and prepare array Par
 	set from=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"fromDate")	
 	set to=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"toDate")
@@ -185,11 +190,11 @@ ClassMethod ViewResult(Par = "") As %Status
 		do ##class(appmsw.cbrf.util).initDb(from,to)
 	}
 	elseif mode=3 {
-		set gn="^||tmpQuery"
-		set st=##class(apptools.core.sys).SaveSQL(sql,gn)
+		set gn2="^||tmpQuery"
+		set st=##class(apptools.core.sys).SaveSQL(sql,gn2)
 		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
-		set newfile="/usr/irissys/mgr/Temp/Exchange-rate"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
-		do ##class(appmsw.python.xlsx).gn2xlsx(gn,"",newfile,"Test",pattern)
+		set newfile=@gn@("outputpath")_"Exchange-rate-"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
+		do ##class(appmsw.python.xlsx).gn2xlsx(gn2,"",newfile,"Test",pattern)
 		do ##class(Fileserver.File).AddFile(newfile)
 	}
 	quit $$$OK
@@ -201,7 +206,8 @@ ClassMethod SQLFirstHead(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set %ui=1
-	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern.xlsx"
+	set gn=##class(appmsw.python.demo).#GN
+	set pattern=@gn@("pattpath")_"pattern.xlsx"
 	set sql="select * from %SYS.Namespace_List(0,0)"
     set inc=0 
 	set onclick=$$$blockui("Load...")_
@@ -234,6 +240,8 @@ ClassMethod SQLResult(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set mode=Par("mode")
+	set gn=##class(appmsw.python.demo).#GN
+	set gn=##class(appmsw.python.demo).#GN
 	write ..ButtonAgain(divId,key)
 	;Geting elements from form and prepare array Par
 	set sql=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"Sql")
@@ -243,11 +251,11 @@ ClassMethod SQLResult(Par = "") As %Status
 		if 'st  write $$$appError($System.Status.GetErrorText(st))
 	}
 	elseif mode=2 {
-		set gn="^||tmpQuery"
-		set st=##class(apptools.core.sys).SaveSQL(sql,gn)
+		set gn2="^||tmpQuery"
+		set st=##class(apptools.core.sys).SaveSQL(sql,gn2)
 		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
-		set newfile="/usr/irissys/mgr/Temp/sql"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
-		do ##class(appmsw.python.xlsx).gn2xlsx(gn,"",newfile,"Test",pattern)
+		set newfile=@gn@("outputpath")_"sql-"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
+		do ##class(appmsw.python.xlsx).gn2xlsx(gn2,"",newfile,"Test",pattern)
 		do ##class(Fileserver.File).AddFile(newfile)
 	}
 	quit $$$OK
@@ -259,7 +267,8 @@ ClassMethod TitanicFirstHead(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set %ui=1
-	set pattern="/opt/irisapp/src/csp/sql2xlsx/pattern/pattern.xlsx"
+	set gn=##class(appmsw.python.demo).#GN
+	set pattern=@gn@("pattpath")_"pattern.xlsx"
 	set sql="select * FROM Data.Titanic"
     set inc=0 
 	set onclick=$$$blockui("Load...")_
@@ -294,6 +303,7 @@ ClassMethod TitanicResult(Par = "") As %Status
 	set key=Par("key")
 	set divId=Par("divId")
 	set mode=Par("mode")
+	set gn=##class(appmsw.python.demo).#GN
 	write ..ButtonAgain(divId,key)
 	;Geting elements from form and prepare array Par
 	set sql=##class(apptools.core.Action).GetElemForm(%request,.Par,divId_"Sql")
@@ -306,11 +316,11 @@ ClassMethod TitanicResult(Par = "") As %Status
 		do ##class(community.csvgen).GenerateFromURL("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv",",","Data.Titanic")
 	}
 	elseif mode=2 {
-		set gn="^||tmpQuery"
-		set st=##class(apptools.core.sys).SaveSQL(sql,gn)
+		set gn2="^||tmpQuery"
+		set st=##class(apptools.core.sys).SaveSQL(sql,gn2)
 		if 'st  write $$$appError($System.Status.GetErrorText(st)) quit st
-		set newfile="/usr/irissys/mgr/Temp/titanic"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
-		do ##class(appmsw.python.xlsx).gn2xlsx(gn,"",newfile,"Test",pattern)
+		set newfile=@gn@("outputpath")_"titanic-"_$tr(##class(apptools.core.type).GetDateTime($h),"T:","_")_".xlsx"
+		do ##class(appmsw.python.xlsx).gn2xlsx(gn2,"",newfile,"Test",pattern)
 		do ##class(Fileserver.File).AddFile(newfile)
 	}
 	quit $$$OK

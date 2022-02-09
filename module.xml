@@ -13,14 +13,20 @@
 	<License>MIT</License>
 	</Author>
 	<SystemRequirements Version=">=2021.2" Interoperability="enabled" />
+	<Default Name="demo" Value="" />
 	<SourcesRoot>src</SourcesRoot>
-	<Invoke Class="appmsw.python.util" Method="init" Phase="Activate" When="After"/>
+	<Invoke Class="appmsw.python.util" Method="init" Phase="Activate" When="After">
+		<Arg>${demo}</Arg>
+	</Invoke>
 	<Dependencies>
 	  <ModuleReference>
         <Name>apptools-admin</Name>
         <Version>1.1.*</Version>
       </ModuleReference>
     </Dependencies>
+	<AfterInstallMessage>if you need to install a module without demo projects, then:
+&#13;USER>zpm "install appmsw-sql2xlsx -Dzpm.demo=none"
+	</AfterInstallMessage>
 	<Resource Name="appmsw.python.PKG"/>
     <CSPApplication 
         SourcePath="/src/csp/sql2xlsx"
