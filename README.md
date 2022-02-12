@@ -12,7 +12,7 @@
  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/SergeyMi37/appmsw-sql2xlsx">
  [![Demo](https://img.shields.io/badge/Demo%20on-GCR-black)](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/rate&class=appmsw.python.demo#)
  
- Solution of using python openxl library to export queries to excel file based on template.
+ Module for exporting IRIS queries to an excel file using the python openxl library.
  
  To [demonstrate the possibilities](https://appmsw-sql2xlsx.demo.community.intersystems.com/apptoolsrest/a/xlsx&class=appmsw.python.demo), I used the [fileserver](https://openexchange.intersystems.com/package/Cache-FileServer) and [csvgen](https://openexchange.intersystems.com/package/csvgen) projects
 
