@@ -5,5 +5,7 @@ Do ##class(Security.Users).UnExpireUserPasswords("*")
 ; zn "%SYS" do ##class(Security.SSLConfigs).Create("z") set r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="z" do r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
 ;}
 zn "USER"
-zpm "load /opt/irisapp/ -v":1:1
+zpm "load /opt/irisapp/ -v":1
+
+zpm "load https://github.com/SergeyMi37/isc-passwordless"
 halt
