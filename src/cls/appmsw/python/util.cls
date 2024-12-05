@@ -1,6 +1,19 @@
 Class appmsw.python.util [ Abstract ]
 {
 
+ClassMethod ZPMShell(cmd As %String) As %Status
+{
+	Set tNewClass = "%IPM.Main"
+	Set tOldClass = "%ZPM.PackageManager"
+	If $System.CLS.IsMthd(tNewClass, "Shell") {
+		Return $ClassMethod(tNewClass, "Shell", cmd)
+	} ElseIf $System.CLS.IsMthd(tOldClass, "Shell") {
+		Return $ClassMethod(tOldClass, "Shell", cmd)
+	} Else {
+		Throw $$$ERROR($$$GeneralError, "ZPM not installed")
+	}
+}
+
 /// do ##class(appmsw.python.util).init()
 ClassMethod init(installall = 0) As %Status
 {
@@ -18,27 +31,27 @@ ClassMethod init(installall = 0) As %Status
 		 if '##class(%File).DirectoryExists(dir2) {	;for demo  GCR
 			for name="exchange-rate-cbrf","csvgen" {
 				if '##class(appmsw.python.util).IsInstallzpm(name) {
-					do ##class(%ZPM.PackageManager).Shell("install "_name)
+					do ..ZPMShell("install "_name)
 			    }
 			}
-		    do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ##class(%ZPM.PackageManager).Shell("load https://github.com/SergeyMi37/Cache-FileServer")
+		    do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ..ZPMShell("load https://github.com/SergeyMi37/Cache-FileServer")
 		 }
 		 else {  ;install zpm modules for Docker
 			for name="csvgen" {
 				if '##class(appmsw.python.util).IsInstallzpm(name) {
-					do ##class(%ZPM.PackageManager).Shell("install "_name)
+					do ..ZPMShell("install "_name)
 			    }
 			}
-			do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ##class(%ZPM.PackageManager).Shell("load https://github.com/SergeyMi37/Cache-FileServer")
+			do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ..ZPMShell("load https://github.com/SergeyMi37/Cache-FileServer")
 		 }
 		}
 		else {  //just linux without docker
 		}
-		do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ##class(%ZPM.PackageManager).Shell("load https://github.com/SergeyMi37/Cache-FileServer")
+		do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ..ZPMShell("load https://github.com/SergeyMi37/Cache-FileServer")
 		if installall {
 			for name="csvgen" {
 				if '##class(appmsw.python.util).IsInstallzpm(name) {
-					do ##class(%ZPM.PackageManager).Shell("install "_name)
+					do ..ZPMShell("install "_name)
 			    }
 			}
 		}
@@ -59,7 +72,7 @@ ClassMethod init(installall = 0) As %Status
 		
 	}
 	else { ;set options for Windows
-		do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ##class(%ZPM.PackageManager).Shell("load https://github.com/SergeyMi37/Cache-FileServer")
+		do:'##class(appmsw.python.util).IsInstallzpm("fileserver") ..ZPMShell("load https://github.com/SergeyMi37/Cache-FileServer")
 		set @gn@("pattpath")=tCSPDir_"sql2xlsx/pattern\"
 		set @gn@("outputpath")=$System.Util.ManagerDirectory()_"Temp\"
 	}
@@ -78,8 +91,15 @@ ClassMethod MakeProject(dir) As %Status
 /// write ##class(appmsw.python.util).IsInstallzpm("exchange-rate-cbrf")
 ClassMethod IsInstallzpm(modulename, ns = {$namespace}) As %String
 {
-	do ##class(%ZPM.PackageManager).GetListModule(ns,.list)
-	;zw list
+	Set tNewClass = "%IPM.Main"
+	Set tOldClass = "%ZPM.PackageManager"
+	If $System.CLS.IsMthd(tNewClass, "GetListModule") {
+		Do $ClassMethod(tNewClass, "GetListModule", ns, .list)
+	} ElseIf $System.CLS.IsMthd(tOldClass, "GetListModule") {
+		do $ClassMethod(tOldClass, "GetListModule", ns, .list)
+	} Else {
+		Throw $$$ERROR($$$GeneralError, "ZPM not installed")
+	}
 	quit $DATA(list(modulename))
 }
 
